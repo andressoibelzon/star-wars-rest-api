@@ -252,51 +252,46 @@ def get_one_favorito(favoritos_id):
 
 
         # CREAR FAVORITO PLANETA
-@app.route('/favoritos/planeta', methods=['POST'])
-def create_favorito_planetas():
+@app.route('/favorite/planet/<int:planetas_id>', methods=['POST'])
+def create_favorito_planetas(planetas_id):
     request_body = request.json
 
-    favorito_query = Favoritos.query.filter_by(user_id=request_body["user_id"]).first()
-    print(favorito_query)
+    planeta_fav = Favoritos(user_id=request_body["user_id"], planeta_id=planetas_id)
 
-    if favorito_query is None:
-        favorito = Favoritos(user_id=request_body["user_id"], planeta_id=request_body["planeta_id"])
-        db.session.add(favorito)
-        db.session.commit()
-        print(favorito)
+    db.session.add(planeta_fav)
+    db.session.commit()
 
-        response_body = {
+    response_body = {
             "msg": "El favorito de planeta ha sido creado con exito",
             # "result": personaje.serialize()
         }
 
-        return jsonify(response_body), 200
-    else:
-        return jsonify({"msg":"Favorito ya existe"}), 400
+    return jsonify(response_body), 200
+
 
 
 # CREAR FAVORITO PERSONAJES
-@app.route('/favoritos/personaje', methods=['POST'])
-def create_favorito_personajes():
-    request_body = request.json
+# @app.route('/favoritos/personaje', methods=['POST'])
+# def create_favorito_personajes():
+#     request_body = request.json
 
-    favorito_query = Favoritos.query.filter_by(user_id=request_body["user_id"]).first()
-    print(favorito_query)
+#     favorito_query = Favoritos.query.filter_by(user_id=request_body["user_id"]).first()
+#     print(favorito_query)
 
-    if favorito_query is None:
-        favorito = Favoritos(user_id=request_body["user_id"], personaje_id=request_body["personaje_id"])
-        db.session.add(favorito)
-        db.session.commit()
-        print(favorito)
+#     if favorito_query is None:
+#         favorito = Favoritos(user_id=request_body["user_id"], personaje_id=request_body["personaje_id"])
+#         db.session.add(favorito)
+#         db.session.commit()
+#         print(favorito)
 
-        response_body = {
-            "msg": "El favorito de personaje ha sido creado con exito",
-            # "result": personaje.serialize()
-        }
+#         response_body = {
+#             "msg": "El favorito de personaje ha sido creado con exito",
+#             # "result": personaje.serialize()
+#         }
 
-        return jsonify(response_body), 200
-    else:
-        return jsonify({"msg":"Favorito ya existe"}), 400
+#         return jsonify(response_body), 200
+#     else:
+#         return jsonify({"msg":"Favorito ya existe"}), 400
 
 
 # , personaje_id=request_body["personaje_id"]

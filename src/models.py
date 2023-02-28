@@ -6,7 +6,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
-    favoritos = db.relationship('Favoritos',backref='User', lazy=True)
+    favoritos = db.relationship('Favoritos',backref='user', lazy=True)
     def _repr_(self):
         return '<User %r>' % self.id
 
@@ -28,7 +28,7 @@ class Planeta(db.Model):
     diametro = db.Column(db.String(250), nullable=False)
     periodo_orbital = db.Column(db.String(250), nullable=False)
     poblacion =  db.Column(db.String(250), nullable=False)
-    favoritos = db.relationship('Favoritos',backref='Planeta', lazy=True)
+    favoritos = db.relationship('Favoritos',backref='planeta', lazy=True)
     
     
     def _repr_(self):
@@ -54,7 +54,7 @@ class Personaje(db.Model):
     altura = db.Column(db.String(250), nullable=False)
     genero =  db.Column(db.String(250), nullable=False)
     peso =  db.Column(db.String(250), nullable=False)
-    favoritos = db.relationship('Favoritos',backref='Personaje', lazy=True)
+    favoritos = db.relationship('Favoritos',backref='personaje', lazy=True)
 
     
     def _repr_(self):
