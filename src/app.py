@@ -160,6 +160,42 @@ def create_planeta():
         return jsonify({"msg":"Planeta ya existe"}), 400
 
 
+        # CREAR FAVORITO PLANETA
+@app.route('/favorite/planet/<int:planetas_id>', methods=['POST'])
+def create_favorito_planetas(planetas_id):
+    request_body = request.json
+
+    planeta_fav = Favoritos(user_id=request_body["user_id"], planeta_id=planetas_id)
+
+    db.session.add(planeta_fav)
+    db.session.commit()
+
+    response_body = {
+            "msg": "El favorito de planeta ha sido creado con exito",
+            "result": planeta_fav.serialize()
+        }
+
+    return jsonify(response_body), 200
+
+
+# DELETE UN PLANETA
+@app.route('/planeta/<int:planeta_id>', methods=['DELETE'])
+def delete_one_planeta(planeta_id):
+    planeta = Planeta.query.get(planeta_id)
+    if not planeta:
+        return jsonify({'error': 'Example not found'}), 404
+
+    db.session.delete(planeta)
+    db.session.commit()
+
+    response_body = {
+        "msg": "ok",
+        "result": planeta.serialize()
+    }
+
+    return jsonify(response_body), 200
+
+
 ############ PERSONAJES
 
 # OBTENER TODOS LOS PERSONAJES
@@ -218,6 +254,34 @@ def create_personaje():
 
 
 
+# DELETE UN PERSONAJE
+@app.route('/personaje/<int:personaje_id>', methods=['DELETE'])
+def delete_one_personaje(personaje_id):
+    personaje = Personaje.query.get(personaje_id)
+    if not personaje:
+        return jsonify({'error': 'Personaje not found'}), 404
+
+    db.session.delete(personaje)
+    db.session.commit()
+
+    response_body = {
+        "msg": "ok",
+        "result": personaje.serialize()
+    }
+
+    return jsonify(response_body), 200
+
+
+
+
+
+
+
+
+
+
+
+
 ############ FAVORITOS
 
     # OBTENER TODOS LOS FAVORITOS
@@ -251,50 +315,38 @@ def get_one_favorito(favoritos_id):
         return jsonify(response_body), 200
 
 
-        # CREAR FAVORITO PLANETA
-@app.route('/favorite/planet/<int:planetas_id>', methods=['POST'])
-def create_favorito_planetas(planetas_id):
+
+
+
+
+# CREAR FAVORITO PERSONAJES
+@app.route('/favorite/personaje/<int:personajes_id>', methods=['POST'])
+def create_favorito_personajes(personajes_id):
     request_body = request.json
 
-    planeta_fav = Favoritos(user_id=request_body["user_id"], planeta_id=planetas_id)
+    personaje_fav = Favoritos(user_id=request_body["user_id"], personaje_id=personajes_id)
 
-    db.session.add(planeta_fav)
+    db.session.add(personaje_fav)
     db.session.commit()
 
     response_body = {
-            "msg": "El favorito de planeta ha sido creado con exito",
-            # "result": personaje.serialize()
+            "msg": "El favorito de personaje ha sido creado con exito",
+            "result": personaje_fav.serialize()
         }
 
     return jsonify(response_body), 200
 
 
 
-# CREAR FAVORITO PERSONAJES
-# @app.route('/favoritos/personaje', methods=['POST'])
-# def create_favorito_personajes():
-#     request_body = request.json
-
-#     favorito_query = Favoritos.query.filter_by(user_id=request_body["user_id"]).first()
-#     print(favorito_query)
-
-#     if favorito_query is None:
-#         favorito = Favoritos(user_id=request_body["user_id"], personaje_id=request_body["personaje_id"])
-#         db.session.add(favorito)
-#         db.session.commit()
-#         print(favorito)
-
-#         response_body = {
-#             "msg": "El favorito de personaje ha sido creado con exito",
-#             # "result": personaje.serialize()
-#         }
-
-#         return jsonify(response_body), 200
-#     else:
-#         return jsonify({"msg":"Favorito ya existe"}), 400
 
 
-# , personaje_id=request_body["personaje_id"]
+
+
+
+
+
+
+
 
 
 
